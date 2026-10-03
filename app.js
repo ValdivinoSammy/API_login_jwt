@@ -11,8 +11,12 @@ mongoose.connect(process.env.MONGO_URL).then(()=>{console.log("mongoose conectad
 .catch(error=>{console.log("Error:", error)});
 
 
-app.use(cors());
 app.use(cors({
+    origin: [
+        "http://127.0.0.1:5000",
+        "http://localhost:5000",
+        "https://valdivinosammy.github.io"
+    ],
     exposedHeaders: ["auth-token"]
 }));
 
