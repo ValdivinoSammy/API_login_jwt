@@ -12,4 +12,7 @@ router.post("/message", auth, userController.upMessage);
 router.post("/register", userController.register);
 router.post("/login", userController.login);
 
+router.put("/tradeNick", auth, userController.tradeNick);
+
+
 module.exports = router;

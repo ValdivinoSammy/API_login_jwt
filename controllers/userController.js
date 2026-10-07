@@ -86,6 +86,24 @@ const userController = {
             res.status(500).send("Erro ao buscar as mensagens");
         }
     },
+
+    tradeNick: async function (req, res) {
+        if(!req.body.newNick) return res.status(500).send("Você não pode alterer seu apelado para isso.");
+        try {
+            let selectNick = await User.findOne({ nome: req.body.newNick });
+            if (selectNick) { return res.status(400).send("Nome de Usuario Existente.") };
+
+            let nickTrocado = await User.findOneAndUpdate({ nome: req.query.nome }, { $set:{nome: req.body.newNick} }, { returnDocument: "after" });
+
+            await UserMessage.updateMany({ id: req.query.nome }, { $set:{id: req.body.newNick} });
+            await UserMessage.updateMany({ user: req.query.nome }, { $set:{user: req.body.newNick} });
+
+            res.status(200).send(nickTrocado.nome);
+        } catch (error) {
+            res.status(500).send(error)
+        }
+    },
+
 }
 
 
